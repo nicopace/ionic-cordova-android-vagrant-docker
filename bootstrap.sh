@@ -13,8 +13,8 @@ ln -s /usr/bin/nodejs /usr/bin/node
 curl -O $ANDROID_SDK
 tar -xzvf $ANDROID_SDK_FILENAME
 
-echo "ANDROID_HOME=~/android-sdk-linux" > ~/.bashrc
-echo "PATH=\$PATH:~/android-sdk-linux/tools:~/android-sdk-linux/platform-tools" > ~/.bashrc
+echo "ANDROID_HOME=~/android-sdk-linux" >> /home/vagrant/.bashrc
+echo "PATH=\$PATH:~/android-sdk-linux/tools:~/android-sdk-linux/platform-tools" >> /home/vagrant/.bashrc
 
 npm install -g cordova
 npm install -g ionic
