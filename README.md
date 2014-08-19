@@ -5,10 +5,9 @@ A Vagrant image complete with Ionic, Node, Cordova, and Android installed for qu
 
 To install, download and install [Vagrant](https://www.vagrantup.com/downloads.html) for your platform, then download and install [VirtualBox](http://virtualbox.org/).
 
-Once Vagrant and VirtualBox are installed, you can run:
+Once Vagrant and VirtualBox are installed, you can download the latest release of this GitHub repo, and unzip it. `cd` into the unzipped folder and run:
 
 ```bash
-$ vagrant init drifty/ionic-android
 $ vagrant up
 $ vagrant ssh
 ```
