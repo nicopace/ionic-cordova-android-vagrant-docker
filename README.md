@@ -1,7 +1,7 @@
-Ionic Cordova Android Vagrant
-=============================
+Ionic Cordova Android Vagrant Docker
+====================================
 
-A Vagrant image complete with Ionic, Node, Cordova, and Android installed for quick development of apps.
+A Vagrant and Docker image complete with Ionic, Node, Cordova, and Android installed for quick development of apps.
 
 To install, download and install [Vagrant](https://www.vagrantup.com/downloads.html) for your platform, then download and install [VirtualBox](http://virtualbox.org/).
 
