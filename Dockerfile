@@ -22,7 +22,7 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 RUN curl -O $ANDROID_SDK
 RUN tar -xzvf $ANDROID_SDK_FILENAME
-RUN sudo chown -R vagrant android-sdk-linux/
+RUN chown -R vagrant android-sdk-linux/
 #
 ## Create a user for the web app.
 RUN addgroup --gid 9999 app
