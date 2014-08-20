@@ -17,7 +17,7 @@ CMD ["/sbin/my_init"]
 # ...put your own build instructions here...
 RUN  sed 's@us.archive.ubuntu.com@ftp.ccc.uba.ar/pub/linux/ubuntu@' -i /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get install -y nodejs npm git openjdk-6-jdk ant expect
+RUN apt-get install -y nodejs npm git openjdk-6-jdk ant expect wget
 # So ubuntu doesn't freak out about nodejs path, which is just silly
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
