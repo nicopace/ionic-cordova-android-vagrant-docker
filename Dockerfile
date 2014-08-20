@@ -3,8 +3,8 @@ MAINTAINER Nicolas Pace <nicolas.pace@unixono.com.ar>
 
 # Set correct environment variables.
 ENV HOME /root
-ENV ANDROID_SDK_FILENAME=android-sdk_r23.0.2-linux.tgz
-ENV ANDROID_SDK=http://dl.google.com/android/$ANDROID_SDK_FILENAME
+ENV ANDROID_SDK_FILENAME android-sdk_r23.0.2-linux.tgz
+ENV ANDROID_SDK http://dl.google.com/android/$ANDROID_SDK_FILENAME
 
 # Regenerate SSH host keys. baseimage-docker does not contain any, so you
 # have to do that yourself. You may also comment out this instruction; the
