@@ -30,8 +30,7 @@ RUN chmod 700 /home/app/.ssh
 RUN chown app:app /home/app/.ssh
 
 
-RUN curl -O $ANDROID_SDK -o /tmp/
-RUN tar -xzvf /tmp/$ANDROID_SDK_FILENAME /home/app
+RUN wget $ANDROID_SDK && tar -xzvf $ANDROID_SDK_FILENAME /home/app
 RUN chown -R app /home/android-sdk-linux/
 
 RUN echo "ANDROID_HOME=~/android-sdk-linux" >> /home/app/.bashrc
