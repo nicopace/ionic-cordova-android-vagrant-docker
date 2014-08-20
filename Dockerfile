@@ -17,7 +17,11 @@ CMD ["/sbin/my_init"]
 # ...put your own build instructions here...
 RUN  sed 's@archive.ubuntu.com@ftp.ccc.uba.ar/pub/linux/ubuntu@' -i /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get install -y nodejs npm git openjdk-6-jdk ant expect wget
+# Runs apt, and cleans cache afterwards
+RUN apt-get install -y \
+    nodejs npm git openjdk-6-jdk ant expect wget && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # So ubuntu doesn't freak out about nodejs path, which is just silly
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
@@ -49,6 +53,3 @@ expect {
     eof
 }
 '
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
