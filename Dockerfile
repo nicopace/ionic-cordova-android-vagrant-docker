@@ -34,7 +34,7 @@ RUN cd /home/app && \
     wget $ANDROID_SDK && \
     tar -xzvf $ANDROID_SDK_FILENAME && \
     rm $ANDROID_SDK_FILENAME
-RUN chown -R app /home/android-sdk-linux/
+RUN chown -R app /home/app/android-sdk-linux/
 
 RUN echo "ANDROID_HOME=~/android-sdk-linux" >> /home/app/.bashrc
 RUN echo "PATH=\$PATH:~/android-sdk-linux/tools:~/android-sdk-linux/platform-tools" >> /home/app/.bashrc
