@@ -20,10 +20,6 @@ RUN apt-get install -y nodejs npm git openjdk-6-jdk ant expect
 # So ubuntu doesn't freak out about nodejs path, which is just silly
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
-RUN curl -O $ANDROID_SDK
-RUN tar -xzvf $ANDROID_SDK_FILENAME
-RUN chown -R vagrant android-sdk-linux/
-#
 ## Create a user for the web app.
 RUN addgroup --gid 9999 app
 RUN adduser --uid 9999 --gid 9999 --disabled-password --gecos "Application" app
@@ -32,6 +28,11 @@ RUN mkdir -p /home/app/.ssh
 RUN chmod 700 /home/app/.ssh
 RUN chown app:app /home/app/.ssh
 
+
+RUN curl -O $ANDROID_SDK -o /home/app/$ANDROID_SDK_FILENAME
+RUN tar -xzvf /home/app/$ANDROID_SDK_FILENAME /home/app
+RUN chown -R app /home/android-sdk-linux/
+
 RUN echo "ANDROID_HOME=~/android-sdk-linux" >> /home/app/.bashrc
 RUN echo "PATH=\$PATH:~/android-sdk-linux/tools:~/android-sdk-linux/platform-tools" >> /home/app/.bashrc
 
@@ -39,7 +40,7 @@ RUN npm install -g cordova
 RUN npm install -g ionic
 RUN expect -c '
 set timeout -1;
-spawn /home/vagrant/android-sdk-linux/tools/android update sdk -u --all --filter platform-tool,android-19,build-tools-19.1.0
+spawn /home/app/android-sdk-linux/tools/android update sdk -u --all --filter platform-tool,android-19,build-tools-19.1.0
 expect {
     "Do you accept the license" { exp_send "y\r" ; exp_continue }
     eof
