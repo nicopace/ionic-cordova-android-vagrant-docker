@@ -45,11 +45,11 @@ RUN echo "PATH=\$PATH:~/android-sdk-linux/tools:~/android-sdk-linux/platform-too
 
 RUN npm install -g cordova
 RUN npm install -g ionic
-RUN expect -c '
-set timeout -1;
-spawn /home/app/android-sdk-linux/tools/android update sdk -u --all --filter platform-tool,android-19,build-tools-19.1.0
-expect {
-    "Do you accept the license" { exp_send "y\r" ; exp_continue }
-    eof
-}
+RUN expect -c ' \
+set timeout -1;\
+spawn /home/app/android-sdk-linux/tools/android update sdk -u --all --filter platform-tool,android-19,build-tools-19.1.0 \
+expect { \
+    "Do you accept the license" { exp_send "y\r" ; exp_continue } \
+    eof\
+}\
 '
