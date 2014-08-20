@@ -15,7 +15,6 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 CMD ["/sbin/my_init"]
 
 # ...put your own build instructions here...
-RUN  sed 's@archive.ubuntu.com@ftp.ccc.uba.ar/pub/linux/ubuntu@' -i /etc/apt/sources.list
 RUN apt-get update
 # Runs apt, and cleans cache afterwards
 RUN apt-get install -y \
