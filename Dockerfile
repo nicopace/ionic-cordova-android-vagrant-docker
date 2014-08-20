@@ -30,8 +30,9 @@ RUN chmod 700 /home/app/.ssh
 RUN chown app:app /home/app/.ssh
 
 
-RUN wget $ANDROID_SDK && \
-    tar -xzvf $ANDROID_SDK_FILENAME /home/app && \
+RUN cd /home/app && \
+    wget $ANDROID_SDK && \
+    tar -xzvf $ANDROID_SDK_FILENAME && \
     rm $ANDROID_SDK_FILENAME
 RUN chown -R app /home/android-sdk-linux/
 
