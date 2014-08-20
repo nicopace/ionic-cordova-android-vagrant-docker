@@ -15,6 +15,7 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 CMD ["/sbin/my_init"]
 
 # ...put your own build instructions here...
+RUN  sed 's@us.archive.ubuntu.com@ftp.ccc.uba.ar/pub/linux/ubuntu@' -i /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y nodejs npm git openjdk-6-jdk ant expect
 # So ubuntu doesn't freak out about nodejs path, which is just silly
