@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/nicopace/ionic-cordova-android-vagrant-docker.png?label=ready&title=Ready)](https://waffle.io/nicopace/ionic-cordova-android-vagrant-docker)
 Ionic Cordova Android Vagrant Docker
 ====================================
 
