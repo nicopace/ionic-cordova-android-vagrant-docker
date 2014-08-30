@@ -16,34 +16,27 @@ CMD ["/sbin/my_init"]
 
 # ...put your own build instructions here...
 RUN apt-get update
-# Runs apt, and cleans cache afterwards
-RUN apt-get install -y \
-    nodejs npm git openjdk-6-jdk ant expect wget && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# So ubuntu doesn't freak out about nodejs path, which is just silly
-RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 ## Create a user for the web app.
 RUN addgroup --gid 9999 app
-RUN adduser --uid 9999 --gid 9999 --disabled-password --gecos "Application" app
-RUN usermod -L app
-RUN mkdir -p /home/app/.ssh
-RUN chmod 700 /home/app/.ssh
-RUN chown app:app /home/app/.ssh
+RUN adduser --uid 9999 --gid 9999 --gecos "Application" app
+RUN echo app | passwd app --stdin
 
+# Android Install
 
-RUN cd /home/app && \
+RUN apt-get install -y openjdk-6-jdk ant expect wget && \ # adb dependencies
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN cd /opt && \
     wget $ANDROID_SDK && \
-    tar -xzvf $ANDROID_SDK_FILENAME && \
+    tar -xzvf /tmp/$ANDROID_SDK_FILENAME && \
+    export ANDROID_HOME=/opt/android-sdk-linux && \
+    export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools && \
+    chgrp -R users /opt/android-sdk-linux ; chmod -R 0775 /opt/android-sdk-linux
     rm $ANDROID_SDK_FILENAME
-RUN chown -R app /home/app/android-sdk-linux/
 
-RUN echo "ANDROID_HOME=~/android-sdk-linux" >> /home/app/.bashrc
-RUN echo "PATH=\$PATH:~/android-sdk-linux/tools:~/android-sdk-linux/platform-tools" >> /home/app/.bashrc
+RUN echo -e  "export ANDROID_HOME=/opt/android-sdk-linux \nexport PATH=\$PATH:/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools" >> /etc/profile.d/android.sh
 
-RUN npm install -g cordova
-RUN npm install -g ionic
 RUN expect -c ' \
 set timeout -1;\
 spawn /home/app/android-sdk-linux/tools/android update sdk -u --all --filter platform-tool,android-19,build-tools-19.1.0 \
@@ -52,3 +45,17 @@ expect { \
     eof\
 }\
 '
+
+# Add USB Support
+RUN apt-get install -y usbutils && \ # usb dependencies
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Ionic Install
+RUN apt-get install -y nodejs npm git && \ # ionic dependencies
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# So ubuntu doesn't freak out about nodejs path, which is just silly
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+RUN npm install -g cordova
+RUN npm install -g ionic
