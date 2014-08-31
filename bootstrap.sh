@@ -6,9 +6,7 @@ ANDROID_SDK=http://dl.google.com/android/$ANDROID_SDK_FILENAME
 #sudo apt-get install python-software-properties
 #sudo add-apt-repository ppa:webupd8team/java
 apt-get update
-apt-get install -y nodejs npm git openjdk-7-jdk ant expect
-# So ubuntu doesn't freak out about nodejs path, which is just silly
-ln -s /usr/bin/nodejs /usr/bin/node
+apt-get install -y nodejs nodejs-legacy npm git openjdk-7-jdk ant expect
 
 curl -O $ANDROID_SDK
 tar -xzvf $ANDROID_SDK_FILENAME
