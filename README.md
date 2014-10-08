@@ -17,6 +17,8 @@ $ vagrant up
 $ vagrant ssh
 ```
 
+The username for vagrant is `vagrant` and the password is `vagrant`. 
+
 This will download and install the image, and then go through the dependencies and install them one by one. `vagrant ssh` will connect you to the image and give you a bash prompt. Once everything completes, you'll have a working box to build your apps on Android.
 
 ### Connected Android Devices
