@@ -13,6 +13,7 @@ tar -xzvf $ANDROID_SDK_FILENAME
 sudo chown -R vagrant android-sdk-linux/
 
 echo "ANDROID_HOME=~/android-sdk-linux" >> /home/vagrant/.bashrc
+echo "export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-i386" >> /home/vagrant/.bashrc
 echo "PATH=\$PATH:~/android-sdk-linux/tools:~/android-sdk-linux/platform-tools" >> /home/vagrant/.bashrc
 
 npm install -g cordova
