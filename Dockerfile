@@ -23,8 +23,9 @@ RUN adduser --uid 9999 --gid 9999 --gecos "Application" app --disabled-password
 RUN echo app:app | chpasswd
 
 # Android Install
+# adb dependencies
 
-RUN apt-get install -y openjdk-6-jdk ant expect wget && \ # adb dependencies
+RUN apt-get install -y openjdk-6-jdk ant expect wget && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN cd /opt && \
