@@ -58,6 +58,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Example for VirtualBox:
   #
     config.vm.provider "virtualbox" do |vb|
+     # config.vm.box = "ubuntu/trusty32"
+     # config.vm.hostname = "ionic-android"
+
+     config.vm.provision :shell, path: "bootstrap.sh"
      vb.customize ["modifyvm", :id, "--usb", "on"]
      #vb.customize ["usbfilter", "add", "0", "--target", :id, "1197123b", "--vendorid", "0x04e8"]
      vb.customize ["usbfilter", "add", "0", "--target", :id, "--name", "android", "--vendorid", "0x18d1"]
@@ -134,4 +138,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # chef-validator, unless you changed the configuration.
   #
   #   chef.validation_client_name = "ORGNAME-validator"
+  config.vm.provider "docker" do |d|
+      d.has_ssh = true
+      d.build_dir = "."
+      d.force_host_vm = true
+  end
 end

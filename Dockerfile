@@ -14,49 +14,60 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# ...put your own build instructions here...
+
+# Install Oracle Java
+RUN apt-get -y install software-properties-common
+RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get update
+RUN echo "oracle-java7-installer shared/accepted-oracle-license-v1-1 boolean true" | debconf-set-selections
+RUN apt-get -y install oracle-java7-installer
+
+# ...put your own build instructions here...
+# RUN apt-get update
 
 ## Create a user for the web app.
 RUN addgroup --gid 9999 app
-RUN adduser --uid 9999 --gid 9999 --gecos "Application" app --disabled-password
-RUN echo app:app | chpasswd
+RUN adduser --uid 9999 --disabled-password --gid 9999 --gecos "Application" app
+# RUN echo app | passwd app --stdin
+RUN echo "app:app" | chpasswd
 
 # Android Install
 # adb dependencies
-
-RUN apt-get install -y openjdk-6-jdk ant expect wget && \
+#
+RUN apt-get install -y ant expect wget && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN cd /opt && \
     wget $ANDROID_SDK && \
-    tar -xzvf /tmp/$ANDROID_SDK_FILENAME && \
+    tar -xzvf $ANDROID_SDK_FILENAME && \
     export ANDROID_HOME=/opt/android-sdk-linux && \
     export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools && \
-    chgrp -R users /opt/android-sdk-linux ; chmod -R 0775 /opt/android-sdk-linux
+    chgrp -R users /opt/android-sdk-linux && chmod -R 0775 /opt/android-sdk-linux && \
     rm $ANDROID_SDK_FILENAME
 
 RUN echo -e  "export ANDROID_HOME=/opt/android-sdk-linux \nexport PATH=\$PATH:/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools" >> /etc/profile.d/android.sh
 
 RUN expect -c ' \
 set timeout -1;\
-spawn /home/app/android-sdk-linux/tools/android update sdk -u --all --filter platform-tool,android-19,build-tools-19.1.0 \
+spawn /opt/android-sdk-linux/tools/android update sdk -u --all --filter platform-tool,android-19,build-tools-19.1.0 \
 expect { \
     "Do you accept the license" { exp_send "y\r" ; exp_continue } \
     eof\
 }\
 '
 
-# Add USB Support
-RUN apt-get install -y usbutils && \ # usb dependencies
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Ionic Install
-RUN apt-get install -y nodejs npm git && \ # ionic dependencies
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# So ubuntu doesn't freak out about nodejs path, which is just silly
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-RUN npm install -g cordova
-RUN npm install -g ionic
+# # Ionic Install
+# # ionic dependencies
+# RUN apt-get install -y nodejs npm git && \
+#     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# 
+# # So ubuntu doesn't freak out about nodejs path, which is just silly
+# RUN ln -s /usr/bin/nodejs /usr/bin/node
+# 
+# RUN npm install -g cordova
+# RUN npm install -g ionic
+# 
+# # Add USB Support
+# # usb dependencies
+# RUN apt-get install -y usbutils && \
+#     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
