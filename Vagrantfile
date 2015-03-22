@@ -4,6 +4,12 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+$init = <<SCRIPT
+sudo /home/vagrant/android-sdk-linux/platform-tools/adb kill-server
+sudo /home/vagrant/android-sdk-linux/platform-tools/adb start-server
+sudo /home/vagrant/android-sdk-linux/platform-tools/adb devices
+SCRIPT
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
@@ -14,6 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = "ionic-android"
 
   config.vm.provision :shell, path: "bootstrap.sh"
+  config.vm.provision :shell, run: "always", inline: $init
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -23,7 +30,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  
+  config.vm.network "forwarded_port", guest: 8100, host: 8100
+  config.vm.network "forwarded_port", guest: 35729, host: 35729
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
